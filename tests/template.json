@@ -1,0 +1,5 @@
+{
+  "html": "<style>/* ... */</style><div>Hi, {{name}}<br><img alt=\"\" src=\"{{{logo}}}\" /></div>",
+  "header": "<html><head><style>/* ... */</style></head><body><div>Header {{project}}</div></body></html>",
+  "footer": "<html><head><style>/* ... */</style></head><body><div>Footer {{project}}</div></body></html>"
+}

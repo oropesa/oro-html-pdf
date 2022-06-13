@@ -1,0 +1,37 @@
+{
+  "name": "oro-html-pdf",
+  "version": "1.0.0",
+  "description": "Generate PDF through headless Chromium using Handlebars & HTML template.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "pdf",
+    "html",
+    "handlebars",
+    "promise",
+    "async/await"
+  ],
+  "author": "Carlos Oropesa <carlos.oropesa@maresalogistica.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oropesa/oro-html-pdf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oropesa/oro-html-pdf/issues"
+  },
+  "homepage": "https://github.com/oropesa/oro-html-pdf#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "fs-extra": "^10.1.0",
+    "handlebars": "^4.7.7",
+    "oro-functions": "^1.1.5",
+    "puppeteer": "^14.3.0"
+  },
+  "devDependencies": {
+    "jest": "^28.1.1",
+    "pdf.js-extract": "^0.2.0"
+  }
+}
