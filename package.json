@@ -1,6 +1,6 @@
 {
   "name": "oro-html-pdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate PDF through headless Chromium using Handlebars & HTML template.",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "promise",
     "async/await"
   ],
-  "author": "Carlos Oropesa <carlos.oropesa@maresalogistica.com>",
+  "author": "Carlos Oropesa <carlos@oropensando.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -27,8 +27,8 @@
     "axios": "^0.27.2",
     "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7",
-    "oro-functions": "^1.1.5",
-    "puppeteer": "^14.3.0"
+    "oro-functions": "^1.1.6",
+    "puppeteer": "^14.4.1"
   },
   "devDependencies": {
     "jest": "^28.1.1",

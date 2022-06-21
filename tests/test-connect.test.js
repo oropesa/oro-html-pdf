@@ -17,7 +17,7 @@ describe('new oHtmlPdf()', () => {
     test( 'new oHtmlPdf()', async () => {
         let oHtmlPdf = new OHtmlPdf();
 
-        expect( oHtmlPdf.constructor.name ).toBe( 'OHtmlPdf' );
+        expect( Ofn.type( oHtmlPdf, true ) ).toBe( 'OHtmlPdf' );
     } );
 
     test( 'oHtmlPdf.poolOpen-Close default', async () => {

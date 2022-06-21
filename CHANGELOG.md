@@ -1,3 +1,7 @@
+## 1.0.1 / 2022-06-21
+* Updated lib `oro-functions` to `v1.1.6`.
+* Updated lib `puppeteer` to `v14.4.1`.
+
 ## 1.0.0 / 2022-06-13
 * Added `MIT License`.
 * Added _unit testing_ `Jest`.
