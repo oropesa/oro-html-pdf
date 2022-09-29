@@ -1,3 +1,10 @@
+## 1.0.2 / 2022-09-29
+* Fixed the use of `handlebars.registerHelper` the function `fullIfEmpty`.
+* Updated in `options.handlebars` the possibility to add _custom_ `registerHelper`
+* Updated lib `oro-functions` to `v1.2.1`.
+* Updated lib `puppeteer` to `v18.0.5`.
+* Updated lib-dev `jest` to `v29.1.1`.
+
 ## 1.0.1 / 2022-06-21
 * Updated lib `oro-functions` to `v1.1.6`.
 * Updated lib `puppeteer` to `v14.4.1`.

@@ -396,4 +396,78 @@ describe('generatePdf', () => {
         expect( content2_1 ).toBe( '1/2.Ey Bar, my company is Foo.' );
         expect( content2_2 ).toBe( '2/2.Baz' );
     } );
+
+    test( 'generatePdf args with registerHelper', async () => {
+        let oHtmlPdf = new OHtmlPdf();
+        await oHtmlPdf.poolOpen();
+        const response1 = await oHtmlPdf.generatePdf( {
+            template: {
+                html: '<body>Hi {{company}}, my name is {{name}}.{{extra}}Thanks.</body>'
+            },
+            data: { company: 'Oropensando', name: 'Carlos', extra: '' }
+        } );
+        const response2 = await oHtmlPdf.generatePdf( {
+            template: {
+                html: '<body>Hi {{company}}, my name is {{name}}.{{#fillIfEmpty}}{{extra}}{{/fillIfEmpty}}Thanks.</body>'
+            },
+            data: { company: 'Oropensando', name: 'Carlos', extra: '' }
+        } );
+        await oHtmlPdf.poolClose();
+
+        const pdfStructure1 = await new PDFExtract().extractBuffer( response1.buffer );
+        const content1 = Ofn.arrayValuesByKey( pdfStructure1.pages[ 0 ].content, 'str' ).join( '' );
+
+        const pdfStructure2 = await new PDFExtract().extractBuffer( response2.buffer );
+        const content2 = Ofn.arrayValuesByKey( pdfStructure2.pages[ 0 ].content, 'str' ).join( '' );
+
+        expect( response1.status ).toBe( true );
+        expect( content1 ).toBe( 'Hi Oropensando, my name is Carlos.Thanks.' );
+
+        expect( response2.status ).toBe( true );
+        expect( content2 ).toBe( 'Hi Oropensando, my name is Carlos. Thanks.' );
+    } );
+
+    test( 'generatePdf args with custom registerHelper', async () => {
+        let oHtmlPdf = new OHtmlPdf();
+        await oHtmlPdf.poolOpen();
+        const response1 = await oHtmlPdf.generatePdf( {
+            template: {
+                html: '<body>Hi {{company}}, my name is {{name}}.{{extra}}Thanks.</body>'
+            },
+            data: { company: 'Oropensando', name: 'Carlos', extra: '' }
+        } );
+        const response2 = await oHtmlPdf.generatePdf( {
+            template: {
+                html: '<body>Hi {{company}}, my name is {{name}}.{{#customIfEmpty}}{{extra}}{{/customIfEmpty}}Thanks.</body>'
+            },
+            data: { company: 'Oropensando', name: 'Carlos', extra: '' },
+            options: {
+                handlebars: {
+                    registerHelpers: {
+                        customIfEmpty: function( args ) {
+                            let value = args.fn( this );
+                            switch( Ofn.type( value ) ) {
+                                case 'string' : return value.trim() === '' ? 'Custom!' : value;
+                                case 'number' : case 'boolean': return value;
+                                default       : return 'Custom!';
+                            }
+                        }
+                    }
+                }
+            }
+        } );
+        await oHtmlPdf.poolClose();
+
+        const pdfStructure1 = await new PDFExtract().extractBuffer( response1.buffer );
+        const content1 = Ofn.arrayValuesByKey( pdfStructure1.pages[ 0 ].content, 'str' ).join( '' );
+
+        const pdfStructure2 = await new PDFExtract().extractBuffer( response2.buffer );
+        const content2 = Ofn.arrayValuesByKey( pdfStructure2.pages[ 0 ].content, 'str' ).join( '' );
+
+        expect( response1.status ).toBe( true );
+        expect( content1 ).toBe( 'Hi Oropensando, my name is Carlos.Thanks.' );
+
+        expect( response2.status ).toBe( true );
+        expect( content2 ).toBe( 'Hi Oropensando, my name is Carlos.Custom!Thanks.' );
+    } );
 });

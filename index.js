@@ -49,7 +49,7 @@ function processTemplate( html, data, options = {} ) {
         const template = Handlebars.compile( html, opts );
 
         // Helpers
-        Handlebars.registerHelper( 'fillIfEmpty' , args => {
+        Handlebars.registerHelper( 'fillIfEmpty' , function( args ) {
             let value = args.fn( this );
             switch( Ofn.type( value ) ) {
                 case 'string' : return value.trim() === '' ?  '&nbsp;' : value;
@@ -57,6 +57,14 @@ function processTemplate( html, data, options = {} ) {
                 default       : return '&nbsp;';
             }
         });
+
+        if( options && options.registerHelpers && Ofn.isObject( options.registerHelpers ) ) {
+            console.log( Object.keys( options.registerHelpers ) );
+            for( const registerHelperName of Object.keys( options.registerHelpers ) ) {
+                Handlebars.registerHelper( registerHelperName, options.registerHelpers[ registerHelperName ] );
+            }
+        }
+
         //
 
         return Ofn.setResponseOK( { html: template( data ) } );
@@ -112,50 +120,52 @@ class OHtmlPdf {
         if( options && options.oTimer ) { options.oTimer.step( options.oTimerExec || 'OHtmlPdfGeneratePdf' ); }
         if( ! this.#browser ) { return Ofn.setResponseKO( 'OHtmlPdf is down.' ); }
 
-        options = Ofn.cloneObject( options );
-        template = Ofn.cloneObject( template );
-        data = Ofn.cloneObject( data );
+        options === undefined && ( options = {} );
+        //save optHBars before clone because registerHelpers functions get broken.
+        const optHBars = options.handlebars || options.hbars || {};
 
-        if( options.castData !== false ) {
-            data = await castData( data );
+        let cloneOptions = Ofn.cloneObject( options );
+        let cloneTemplate = Ofn.cloneObject( template );
+        let cloneData = Ofn.cloneObject( data );
+
+        if( cloneOptions.castData !== false ) {
+            cloneData = await castData( cloneData );
         }
 
         //
 
-        const optHBars = options.handlebars || options.hbars || {};
-
-        if( template.html ) {
-            let htmlProcessed = processTemplate( template.html, data, optHBars );
+        if( cloneTemplate.html ) {
+            let htmlProcessed = processTemplate( cloneTemplate.html, cloneData, optHBars );
             if( ! htmlProcessed.status ) { return htmlProcessed; }
-            template.html = htmlProcessed.html;
+            cloneTemplate.html = htmlProcessed.html;
         }
 
-        if( template.header ) {
-            let htmlProcessed = processTemplate( template.header, data, optHBars );
+        if( cloneTemplate.header ) {
+            let htmlProcessed = processTemplate( cloneTemplate.header, cloneData, optHBars );
             if( ! htmlProcessed.status ) { return htmlProcessed; }
-            template.header = htmlProcessed.html;
+            cloneTemplate.header = htmlProcessed.html;
         }
 
-        if( template.footer ) {
-            let htmlProcessed = processTemplate( template.footer, data, optHBars );
+        if( cloneTemplate.footer ) {
+            let htmlProcessed = processTemplate( cloneTemplate.footer, cloneData, optHBars );
             if( ! htmlProcessed.status ) { return htmlProcessed; }
-            template.footer = htmlProcessed.html;
+            cloneTemplate.footer = htmlProcessed.html;
         }
 
         let page = { waitUntil: 'networkidle2' };
-        options.page && ( page = options.page );
+        cloneOptions.page && ( page = cloneOptions.page );
 
         let pdf = { format: "A4", printBackground: true };
-        options.pdf && ( pdf = options.pdf );
+        cloneOptions.pdf && ( pdf = cloneOptions.pdf );
 
-        ! pdf.headerTemplate && template.header && ( pdf.headerTemplate = template.header );
-        ! pdf.footerTemplate && template.footer && ( pdf.footerTemplate = template.footer );
+        ! pdf.headerTemplate && cloneTemplate.header && ( pdf.headerTemplate = cloneTemplate.header );
+        ! pdf.footerTemplate && cloneTemplate.footer && ( pdf.footerTemplate = cloneTemplate.footer );
 
         if( !! pdf.headerTemplate || !! pdf.footerTemplate ) {
             pdf.displayHeaderFooter = true;
         }
 
-        ! pdf.path && options.output && ( pdf.path = options.output );
+        ! pdf.path && cloneOptions.output && ( pdf.path = cloneOptions.output );
         pdf.path && ( pdf.path = resolve( pdf.path ) );
 
         //
@@ -164,7 +174,7 @@ class OHtmlPdf {
 
         try {
             const page = await this.#browser.newPage();
-            await page.goto( template.url ? template.url : `data:text/html,${template.html || ''}`, page );
+            await page.goto( cloneTemplate.url ? cloneTemplate.url : `data:text/html,${cloneTemplate.html || ''}`, page );
             response = await page.pdf( pdf );
         }
         catch( err ) {
@@ -174,7 +184,7 @@ class OHtmlPdf {
         let output = {};
         pdf.path && ( output.filename = Ofn.getFilenameByPath( pdf.path ) );
         pdf.path && ( output.filepath = Ofn.sanitizePath( pdf.path ) );
-        options.buffer !== false && ( output.buffer = Buffer.from( Object.values( response ) ) );
+        cloneOptions.buffer !== false && ( output.buffer = Buffer.from( Object.values( response ) ) );
 
         return Ofn.setResponseOK( output );
     }
