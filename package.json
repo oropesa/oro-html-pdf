@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/oropesa/oro-html-pdf#readme",
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^1.6.0",
     "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7",
     "oro-functions": "^1.2.1",
