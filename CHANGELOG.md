@@ -1,3 +1,28 @@
+## 2.0.0 / 2023-11-06
+* Refactored `./index.js` to `./src/*.ts`.
+* Updated _package_ as `type: "module"`.
+* Added `tsup` and now _package_ is compiled to `cjs` _(common)_ and `mjs` _(module)_.
+* Added _github actions_:
+  * `validate_pr_to_master`
+  * `npm_publish_on_pr_merge_to_master`.
+* Added `TS` support.
+  * Added _ts tests_.
+* Added `package-lock.json`.
+* Improved _tests_.
+* Improved _readme_.
+* Added `husky` (to ensure only valid commits).
+* Added `eslint` (and applied it).
+* Added `prettier` (and applied it).
+* Updated libs:
+  * `axios` from `v0.27.2` to `v1.6.0`.
+  * `fs-extra` from `v10.1.0` to `v11.1.1`.
+  * `handlebars` from `v4.7.7` to `v4.7.8`.
+  * `oro-functions` from `v1.2.1` to `v2.0.1`.
+  * `puppeteer` from `v18.0.5` to `v21.5.0`.
+* Updated _dev_ libs:
+  * `jest` from `v29.1.1` to `v29.7.0`.
+  * `pdf.js-extract` from `v0.2.0` to `v0.2.1`.
+
 ## 1.0.2 / 2022-09-29
 * Fixed the use of `handlebars.registerHelper` the function `fullIfEmpty`.
 * Updated in `options.handlebars` the possibility to add _custom_ `registerHelper`

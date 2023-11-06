@@ -1,6 +1,4 @@
-.idea/*
-node_modules/*
-package-lock.json
-tests/pdf-once.pdf
-tests/pdf-sample.pdf
+.idea/
+dist/
+node_modules/
 tmp.js
