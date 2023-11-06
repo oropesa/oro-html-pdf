@@ -2,6 +2,6 @@
   "name": "Oropesa",
   "project": "Test",
   "image": "oropensando.jpg",
-  "logo": "file://oropensando.jpg",
+  "logo": "file://assets/oropensando.jpg",
   "logosmall": "https://oropensando.com/extrafiles/oro-html-pdf-test/oropensando32.png"
 }
