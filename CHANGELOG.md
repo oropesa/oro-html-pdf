@@ -1,3 +1,22 @@
+## 2.0.1 / 2023-11-22
+* Fixed _github action_ `npm_publish_on_pr_merge_to_master`.
+* Updated libs:
+  * `axios` from `v1.6.0` to `v1.6.2`.
+  * `oro-functions` from `v2.0.1` to `v2.0.2`.
+  * `puppeteer` from `v21.5.0` to `v21.5.2`.
+* Updated _dev_ libs:
+  * `@babel/core` from `v7.23.2` to `v7.23.3`.
+  * `@babel/preset-env` from `v7.23.2` to `v7.23.3`.
+  * `@babel/preset-typescript` from `v7.23.2` to `v7.23.3`.
+  * `@types/fs-extra` from `v11.0.3` to `v11.0.4`.
+  * `@types/jest` from `v29.5.7` to `v29.5.10`.
+  * `@typescript-eslint/eslint-plugin` from `v6.9.1` to `v6.12.0`.
+  * `@typescript-eslint/parser` from `v6.9.1` to `v6.12.0`.
+  * `eslint` from `v8.52.0` to `v8.54.0`.
+  * `oro-timer` from `v2.0.4` to `v2.0.5`.
+  * `prettier` from `v3.0.3` to `v3.1.0`.
+  * `tsup` from `v7.2.0` to `v8.0.1`.
+
 ## 2.0.0 / 2023-11-06
 * Refactored `./index.js` to `./src/*.ts`.
 * Updated _package_ as `type: "module"`.
