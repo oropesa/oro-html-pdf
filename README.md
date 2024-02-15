@@ -120,10 +120,12 @@ const template = {
 
 ## Methods
 
+<hr>
+
 * [await poolOpen](#await-poolopen)
 * [await poolClose](#await-poolclose)
 * [await generatePdf](#await-generatepdf)
-* [await generatePdfOnce](#static-await-generatepdfonce)
+* [static await generatePdfOnce](#static-await-generatepdfonce)
 * [Helper functions](#helper-functions)
   * [await castData](#await-castdata)
   * [processTemplate](#processtemplate)

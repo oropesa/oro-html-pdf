@@ -1,3 +1,24 @@
+## 2.0.2 / 2024-02-15
+* Increase jest test timeout to 25s.
+* Updated libs:
+  * `axios` from `v1.6.2` to `v1.6.7`.
+  * `fs-extra` from `v11.1.1` to `v11.2.0`.
+  * `oro-functions` from `v2.0.2` to `v2.0.3`.
+  * `puppeteer` from `v21.5.2` to `v22.0.0`.
+* Updated _dev_ libs:
+  * `@babel/core` from `v7.23.3` to `v7.23.9`.
+  * `@babel/preset-env` from `v7.23.3` to `v7.23.9`.
+  * `@types/jest` from `v29.5.10` to `v29.5.12`.
+  * `@typescript-eslint/eslint-plugin` from `v6.12.0` to `v7.0.1`.
+  * `@typescript-eslint/parser` from `v6.12.0` to `v7.0.1`.
+  * `eslint` from `v8.54.0` to `v8.56.0`.
+  * `eslint-plugin-unicorn` from `v49.0.0` to `v51.0.1`.
+  * `husky` from `v8.0.3` to `v9.0.11`.
+  * `oro-timer` from `v2.0.5` to `v2.0.6`.
+  * `prettier` from `v3.1.0` to `v3.2.5`.
+  * `tsup` from `v8.0.1` to `v8.0.2`.
+  * `typescript` from `v5.2.2` to `v5.3.3`.
+
 ## 2.0.1 / 2023-11-22
 * Fixed _github action_ `npm_publish_on_pr_merge_to_master`.
 * Updated libs:
