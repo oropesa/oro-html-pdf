@@ -335,7 +335,7 @@ export class OHtmlPdf {
     //
 
     const launch = args.launch ?? { args: ['--no-sandbox', '--disable-setuid-sandbox'] };
-    launch.headless === undefined && (launch.headless = 'new');
+    launch.headless === undefined && (launch.headless = true);
 
     try {
       this.#browser = await puppeteer.launch(launch);
