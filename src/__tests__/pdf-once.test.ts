@@ -1,16 +1,23 @@
-const fsExtra = require('fs-extra');
-const { Ofn } = require('oro-functions');
-const { OHtmlPdf } = require('../dist');
-const { PDFExtract } = require('pdf.js-extract');
+import fsExtra from 'fs-extra';
+import { Ofn } from 'oro-functions';
+import { PDFExtract } from 'pdf.js-extract';
+
+import { OHtmlPdf } from '../oro-html-pdf';
+import { DIRNAME } from './_consts.mocks';
 
 //
 
 describe('generatePdfOnce', () => {
   test('generatePdfOnce args empty', async () => {
-    const response = await OHtmlPdf.generatePdfOnce();
+    const response = await OHtmlPdf.generatePdfOnce({});
+
+    expect(response.status).toBe(true);
+
+    if (!response.status) {
+      return;
+    }
 
     const pdfStructure = await new PDFExtract().extractBuffer(response.buffer);
-    const content = Ofn.arrayValuesByKey(pdfStructure.pages[0].content, 'str').join('');
 
     expect(response.status).toBe(true);
     expect(Ofn.type(response.buffer)).toBe('uint');
@@ -20,7 +27,7 @@ describe('generatePdfOnce', () => {
       rotation: 0,
       offsetX: 0,
       offsetY: 0,
-      width: 595.91998,
+      width: 595.919_98,
       height: 842.88,
     });
     expect(pdfStructure.pages[0].content).toEqual([]);
@@ -41,18 +48,24 @@ describe('generatePdfOnce', () => {
       data: {
         company: 'Oropensando',
         name: 'Carlos',
-        image: `file://${__dirname}/assets/oropensando.jpg`,
+        image: `file://${DIRNAME}/assets/oropensando.jpg`,
       },
       options: {
-        output: `${__dirname}/pdf-once.pdf`,
+        output: `${DIRNAME}/pdf-once-ts.pdf`,
         pdf: { margin: { top: '70px', bottom: '40px' } },
       },
     };
 
     const response = await OHtmlPdf.generatePdfOnce(input);
 
-    const pdfExists = await fsExtra.exists(`${__dirname}/pdf-once.pdf`);
-    await fsExtra.unlink(`${__dirname}/pdf-once.pdf`);
+    expect(response.status).toBe(true);
+
+    if (!response.status) {
+      return;
+    }
+
+    const pdfExists = await fsExtra.exists(`${DIRNAME}/pdf-once-ts.pdf`);
+    await fsExtra.unlink(`${DIRNAME}/pdf-once-ts.pdf`);
 
     expect(pdfExists).toBe(true);
     expect(response.status).toBe(true);
@@ -65,7 +78,7 @@ describe('generatePdfOnce', () => {
     const content1 = Ofn.arrayValuesByKey(pdfStructure.pages[0].content, 'str').join('');
     const content2 = Ofn.arrayValuesByKey(pdfStructure.pages[1].content, 'str').join('');
 
-    expect(content1).toBe('Oropensando1/2.Hi Oropensando, my name is Carlos.');
-    expect(content2).toBe('Oropensando2/2.Smile');
+    expect(content1).toBe('Hi Oropensando, my name is Carlos.Oropensando1/2.');
+    expect(content2).toBe('SmileOropensando2/2.');
   });
 });

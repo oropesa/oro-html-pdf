@@ -1,12 +1,13 @@
 import path from 'node:path';
 import Ofn, { isString } from 'oro-functions';
+import type { SResponseKOObjectSimple, SResponseOKBasic, SResponseOKObject } from 'oro-functions';
+import type { OTimer } from 'oro-timer';
 import puppeteer from 'puppeteer';
+import type { Browser, GoToOptions, PDFOptions, PuppeteerLaunchOptions } from 'puppeteer';
+
 import { castData } from './cast-data';
 import { processTemplate } from './process-template';
-import type { OTimer } from 'oro-timer';
 import type { HandlebarsOptions, ProcessTemplateError } from './process-template';
-import type { Browser, PuppeteerLaunchOptions, GoToOptions, PDFOptions } from 'puppeteer';
-import type { SResponseOKBasic, SResponseKOObjectSimple, SResponseOKObject } from 'oro-functions';
 
 //
 
@@ -22,9 +23,7 @@ export interface OHtmlPdfPoolOpenError {
   puppeteerError: any;
 }
 
-export type OHtmlPdfPoolOpenResponse =
-  | SResponseOKBasic
-  | SResponseKOObjectSimple<OHtmlPdfPoolOpenError>;
+export type OHtmlPdfPoolOpenResponse = SResponseOKBasic | SResponseKOObjectSimple<OHtmlPdfPoolOpenError>;
 
 //
 
@@ -102,31 +101,31 @@ export interface OHtmlPdfGeneratePdfOptionsNone {
   pdf?: PDFOptions;
 }
 
-export interface OHtmlPdfGeneratePdfInput<T extends Record<string, any> = {}> {
+export interface OHtmlPdfGeneratePdfInput<T extends Record<string, any> = object> {
   template?: OHtmlPdfGeneratePdfTemplate;
   data?: T;
   options?: OHtmlPdfGeneratePdfOptions;
 }
 
-export interface OHtmlPdfGeneratePdfInputOnlyFile<T extends Record<string, any> = {}> {
+export interface OHtmlPdfGeneratePdfInputOnlyFile<T extends Record<string, any> = object> {
   template?: OHtmlPdfGeneratePdfTemplate;
   data?: T;
   options: OHtmlPdfGeneratePdfOptionsOnlyFile;
 }
 
-export interface OHtmlPdfGeneratePdfInputOnlyBuffer<T extends Record<string, any> = {}> {
+export interface OHtmlPdfGeneratePdfInputOnlyBuffer<T extends Record<string, any> = object> {
   template?: OHtmlPdfGeneratePdfTemplate;
   data?: T;
   options?: OHtmlPdfGeneratePdfOptionsOnlyBuffer;
 }
 
-export interface OHtmlPdfGeneratePdfInputBufferFile<T extends Record<string, any> = {}> {
+export interface OHtmlPdfGeneratePdfInputBufferFile<T extends Record<string, any> = object> {
   template?: OHtmlPdfGeneratePdfTemplate;
   data?: T;
   options: OHtmlPdfGeneratePdfOptionsBufferFile;
 }
 
-export interface OHtmlPdfGeneratePdfInputNone<T extends Record<string, any> = {}> {
+export interface OHtmlPdfGeneratePdfInputNone<T extends Record<string, any> = object> {
   template?: OHtmlPdfGeneratePdfTemplate;
   data?: T;
   options: OHtmlPdfGeneratePdfOptionsNone;
@@ -220,17 +219,13 @@ export interface OHtmlPdfGeneratePdfOnceInputOnlyFile<T extends Record<string, a
 export interface OHtmlPdfGeneratePdfOnceInputOnlyBuffer<T extends Record<string, any>> {
   template?: OHtmlPdfGeneratePdfTemplate;
   data?: T;
-  options?: OHtmlPdfGeneratePdfOptionsOnlyBuffer &
-    OHtmlPdfPoolOpenOptions &
-    OHtmlPdfPoolCloseOptions;
+  options?: OHtmlPdfGeneratePdfOptionsOnlyBuffer & OHtmlPdfPoolOpenOptions & OHtmlPdfPoolCloseOptions;
 }
 
 export interface OHtmlPdfGeneratePdfOnceInputBufferFile<T extends Record<string, any>> {
   template?: OHtmlPdfGeneratePdfTemplate;
   data?: T;
-  options?: OHtmlPdfGeneratePdfOptionsBufferFile &
-    OHtmlPdfPoolOpenOptions &
-    OHtmlPdfPoolCloseOptions;
+  options?: OHtmlPdfGeneratePdfOptionsBufferFile & OHtmlPdfPoolOpenOptions & OHtmlPdfPoolCloseOptions;
 }
 
 export interface OHtmlPdfGeneratePdfOnceInputNone<T extends Record<string, any>> {
@@ -317,7 +312,6 @@ export class OHtmlPdf {
     return response;
   }
 
-  // @ts-ignore
   #browser?: Browser;
 
   public async poolOpen(args: OHtmlPdfPoolOpenOptions = {}): Promise<OHtmlPdfPoolOpenResponse> {
@@ -368,19 +362,19 @@ export class OHtmlPdf {
     return Ofn.setResponseOK('Disconnected successfully.');
   }
 
-  public async generatePdf<T extends Record<string, any> = {}>(
+  public async generatePdf<T extends Record<string, any> = object>(
     args: OHtmlPdfGeneratePdfInputOnlyFile<T>,
   ): Promise<OHtmlPdfGeneratePdfResponseOnlyFile>;
-  public async generatePdf<T extends Record<string, any> = {}>(
+  public async generatePdf<T extends Record<string, any> = object>(
     args: OHtmlPdfGeneratePdfInputOnlyBuffer<T>,
   ): Promise<OHtmlPdfGeneratePdfResponseOnlyBuffer>;
-  public async generatePdf<T extends Record<string, any> = {}>(
+  public async generatePdf<T extends Record<string, any> = object>(
     args: OHtmlPdfGeneratePdfInputBufferFile<T>,
   ): Promise<OHtmlPdfGeneratePdfResponseBufferFile>;
-  public async generatePdf<T extends Record<string, any> = {}>(
+  public async generatePdf<T extends Record<string, any> = object>(
     args: OHtmlPdfGeneratePdfInputNone<T>,
   ): Promise<OHtmlPdfGeneratePdfResponseNone>;
-  public async generatePdf<T extends Record<string, any> = {}>(
+  public async generatePdf<T extends Record<string, any> = object>(
     args: OHtmlPdfGeneratePdfInput<T>,
   ): Promise<OHtmlPdfGeneratePdfResponse> {
     const { template, data, options } = args ?? {};
@@ -420,10 +414,7 @@ export class OHtmlPdf {
 
     try {
       const page = await this.#browser.newPage();
-      await page.goto(
-        cloneTemplate.url ?? `data:text/html,${cloneTemplate.html || ''}`,
-        goToOptions,
-      );
+      await page.goto(cloneTemplate.url ?? `data:text/html,${cloneTemplate.html || ''}`, goToOptions);
       response = await page.pdf(pdfOptions);
     } catch (error) {
       return Ofn.setResponseKO(`Puppetter Page failed.`, {

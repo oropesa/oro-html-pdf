@@ -8,14 +8,13 @@ export async function castData<T extends Record<string | number, any>>(data: T):
   }
 
   const cloneData = Ofn.cloneObject(data);
-
   const keys = Ofn.isArray(cloneData) ? cloneData.map((_, index) => index) : Object.keys(cloneData);
 
   for (const key of keys) {
     const value = cloneData[key];
 
     if (Ofn.isObject(value) || Ofn.isArray(value)) {
-      // @ts-ignore
+      // @ts-expect-error: check data recursively
       cloneData[key] = await castData(value);
       continue;
     }
@@ -33,18 +32,16 @@ export async function castData<T extends Record<string | number, any>>(data: T):
         .catch((error) => Ofn.setResponseKO({ error }));
 
       if (responseImage.status) {
-        // @ts-ignore
+        // @ts-expect-error: replace file-image to base64
         cloneData[key] = `data:image/${Ofn.getFilenameExtByName(value)};base64,${Buffer.from(
           responseImage.buffer,
         ).toString('base64')}`;
       }
     } else {
-      const responseImage = await axios
-        .get(value, { responseType: 'arraybuffer' })
-        .catch((error) => error);
+      const responseImage = await axios.get(value, { responseType: 'arraybuffer' }).catch((error) => error);
 
       if (responseImage.status === 200) {
-        // @ts-ignore
+        // @ts-expect-error: replace url-image to base64
         cloneData[key] = `data:image/${Ofn.getFilenameExtByName(value)};base64,${Buffer.from(
           responseImage.data,
         ).toString('base64')}`;
