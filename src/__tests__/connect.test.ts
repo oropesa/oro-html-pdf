@@ -1,11 +1,12 @@
-const { Ofn } = require('oro-functions');
-const { OHtmlPdf } = require('../dist');
+import Ofn from 'oro-functions';
+
+import { OHtmlPdf } from '../oro-html-pdf';
 
 describe('new oHtmlPdf()', () => {
   test('new oHtmlPdf()', async () => {
     const oHtmlPdf = new OHtmlPdf();
 
-    expect(Ofn.type(oHtmlPdf, true)).toBe('_OHtmlPdf');
+    expect(Ofn.type(oHtmlPdf, true)).toBe('OHtmlPdf');
   });
 
   test('oHtmlPdf.poolOpen-Close default', async () => {

@@ -1,6 +1,6 @@
-import Ofn from 'oro-functions';
 import Handlebars from 'handlebars';
-import type { compile as handlebarsCompile, HelperDelegate } from 'handlebars';
+import type { HelperDelegate, compile as handlebarsCompile } from 'handlebars';
+import Ofn from 'oro-functions';
 import type { SResponseKOObjectSimple, SResponseOKObject } from 'oro-functions';
 
 // Parameters<typeof handlebarsCompile>[1] === CompileOptions
@@ -41,8 +41,7 @@ export function processTemplate<T extends Record<string, any>>(
 
     // Helpers
     Handlebars.registerHelper('fillIfEmpty', function (args: { fn: (context: any) => string }) {
-      // @ts-ignore
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+      // @ts-expect-error: "this" is required here
       const value = args.fn(this);
       switch (Ofn.type(value)) {
         case 'string':
@@ -64,7 +63,7 @@ export function processTemplate<T extends Record<string, any>>(
 
     return Ofn.setResponseOK({ html: template(data) });
   } catch (error: any) {
-    let msg = error.toString().split('\r\n')[0].replace(/\n/g, ' ');
+    let msg: string = error.toString().split('\r\n')[0].replace(/\n/g, ' ');
     msg = msg.replace('[object Object]', 'data');
 
     return Ofn.setResponseKO(msg, { type: 'ProcessTemplateFailed', handlebarsError: error });

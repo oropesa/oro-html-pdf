@@ -1,10 +1,10 @@
 import fsExtra from 'fs-extra';
-import { OHtmlPdf } from '../dist';
 import { Ofn } from 'oro-functions';
 import { PDFExtract } from 'pdf.js-extract';
-import type { OHtmlPdfGeneratePdfInputNone, OHtmlPdfGeneratePdfInputOnlyBuffer } from '../dist';
-// @ts-ignore
-import { DIRNAME } from './utils';
+
+import type { OHtmlPdfGeneratePdfInputNone, OHtmlPdfGeneratePdfInputOnlyBuffer } from '../oro-html-pdf';
+import { OHtmlPdf } from '../oro-html-pdf';
+import { DIRNAME } from './_consts.mocks';
 
 //
 
@@ -385,8 +385,8 @@ describe('generatePdf', () => {
     const content1 = Ofn.arrayValuesByKey(pdfStructure.pages[0].content, 'str').join('');
     const content2 = Ofn.arrayValuesByKey(pdfStructure.pages[1].content, 'str').join('');
 
-    expect(content1).toBe('OropensandoThanks.Hi Oropensando, my name is Carlos.');
-    expect(content2).toBe('OropensandoThanks.Smile');
+    expect(content1).toBe('Hi Oropensando, my name is Carlos.OropensandoThanks.');
+    expect(content2).toBe('SmileOropensandoThanks.');
   });
 
   test('generatePdf args html header footer metadata', async () => {
@@ -426,8 +426,8 @@ describe('generatePdf', () => {
     const content1 = Ofn.arrayValuesByKey(pdfStructure.pages[0].content, 'str').join('');
     const content2 = Ofn.arrayValuesByKey(pdfStructure.pages[1].content, 'str').join('');
 
-    expect(content1).toBe('1/2.Hi Oropensando, my name is Carlos.');
-    expect(content2).toBe('2/2.Smile');
+    expect(content1).toBe('Hi Oropensando, my name is Carlos.1/2.');
+    expect(content2).toBe('Smile2/2.');
   });
 
   test('generatePdf args no change', async () => {
@@ -517,11 +517,11 @@ describe('generatePdf', () => {
     const content2_1 = Ofn.arrayValuesByKey(pdfStructure2.pages[0].content, 'str').join('');
     const content2_2 = Ofn.arrayValuesByKey(pdfStructure2.pages[1].content, 'str').join('');
 
-    expect(content1_1).toBe('1/2.Hi Oropensando, my name is Carlos.');
-    expect(content1_2).toBe('2/2.Smile');
+    expect(content1_1).toBe('Hi Oropensando, my name is Carlos.1/2.');
+    expect(content1_2).toBe('Smile2/2.');
 
-    expect(content2_1).toBe('1/2.Ey Bar, my company is Foo.');
-    expect(content2_2).toBe('2/2.Baz');
+    expect(content2_1).toBe('Ey Bar, my company is Foo.1/2.');
+    expect(content2_2).toBe('Baz2/2.');
   });
 
   test('generatePdf args with registerHelper', async () => {

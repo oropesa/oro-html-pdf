@@ -1,10 +1,10 @@
 # Oro Html PDF
 
-* [Overview](#overview)
-* [Installation](#installation)
-* [Example](#example)
-* [Template advises](#template-advises)
-* [Methods](#methods)
+- [Overview](#overview)
+- [Installation](#installation)
+- [Example](#example)
+- [Template advises](#template-advises)
+- [Methods](#methods)
 
 ## Overview
 
@@ -19,6 +19,7 @@ npm install oro-html-pdf
 ## Example:
 
 First declare _template_, _data_ and _options_:
+
 ```js
 // cjs
 const { OHtmlPdf } = require( 'oro-html-pdf' );
@@ -28,18 +29,18 @@ import { OHtmlPdf } from 'oro-html-pdf';
 
 //
 
-const data = { 
-  name: 'Oropesa', 
-  project: 'Test', 
-  logo: 'file://C://absolute/dir/to/img/logo.png' 
+const data = {
+  name: 'Oropesa',
+  project: 'Test',
+  logo: 'file://C://absolute/dir/to/img/logo.png'
 }
 
 const template = {
-  html: `<style>/* ... */</style> \ 
+  html: `<style>/* ... */</style> \
     <body><div>Hi, {{name}}<br><img alt="{{project}}" src="{{{logo}}}" /></div></body`,
-  header: `<style>/* ... */</style> \ 
+  header: `<style>/* ... */</style> \
     <div id="header">Header {{project}}</div>`,
-  footer: `<style>/* ... */</style> \ 
+  footer: `<style>/* ... */</style> \
     <div id="footer">Footer {{project}}</div>`
 };
 
@@ -53,17 +54,19 @@ const options = {
 ```
 
 To generate only 1 pdf:
+
 ```js
-const responsePdf = await OHtmlPdf.generatePdfOnce( { template, data, options } );
-// -> { 
-//   status: true, 
-//   filename: 'file.pdf', 
-//   filepath: '/absolute/dir/file.pdf', 
-//   buffer: <ArrayBuffer> 
+const responsePdf = await OHtmlPdf.generatePdfOnce({ template, data, options });
+// -> {
+//   status: true,
+//   filename: 'file.pdf',
+//   filepath: '/absolute/dir/file.pdf',
+//   buffer: <ArrayBuffer>
 // }
 ```
 
 To generate several pdfs:
+
 ```js
 const oHtmlPdf = new OHtmlPdf();
 
@@ -82,18 +85,21 @@ await oHtmlPdf.poolClose( options );
 
 ## Template advises
 
-#### HEADER / FOOTER. 
-To use `template.header`, `template.footer`, define the style `<style>...</style>` of each one inside the template. 
+#### HEADER / FOOTER.
+
+To use `template.header`, `template.footer`, define the style `<style>...</style>` of each one inside the template.
 <br>For example:
+
 ```js
 const template = {
   html: '<style><!-- Affected only in content --></style><body>...</body>',
   header: '<style><!-- Affected only in header --></style><div id="header">...</div>',
-  footer: '<style><!-- Affected only in footer --></style><div id="footer">...</div>'
-} 
+  footer: '<style><!-- Affected only in footer --></style><div id="footer">...</div>',
+};
 ```
 
 #### IMAGES.
+
 To use images in _template-data_, all of _image-data_ are casted to _base64_.
 
 So to fix _HandleBars escape issues_, use triple brace `{{{image}}}` in _template_.
@@ -122,17 +128,18 @@ const template = {
 
 <hr>
 
-* [await poolOpen](#await-poolopen)
-* [await poolClose](#await-poolclose)
-* [await generatePdf](#await-generatepdf)
-* [static await generatePdfOnce](#static-await-generatepdfonce)
-* [Helper functions](#helper-functions)
-  * [await castData](#await-castdata)
-  * [processTemplate](#processtemplate)
+- [await poolOpen](#await-poolopen)
+- [await poolClose](#await-poolclose)
+- [await generatePdf](#await-generatepdf)
+- [static await generatePdfOnce](#static-await-generatepdfonce)
+- [Helper functions](#helper-functions)
+  - [await castData](#await-castdata)
+  - [processTemplate](#processtemplate)
 
 <hr>
 
 ### await poolOpen()
+
 ```ts
 await poolOpen(args: OHtmlPdfPoolOpenOptions = {}) => Promise<OHtmlPdfPoolOpenResponse>
 
@@ -177,6 +184,7 @@ const response = await oHtmlPdf.poolOpen();
 <hr>
 
 ### await poolClose()
+
 ```ts
 await poolClose(args: OHtmlPdfPoolCloseOptions = {}) => Promise<SResponseOKBasic>
 
@@ -196,12 +204,14 @@ const oHtmlPdf = new OHtmlPdf();
 const response = await oHtmlPdf.poolClose();
 // -> { status: true }
 ```
+
 <hr>
 
 ### await generatePdf()
+
 ```ts
 await generatePdf<T extends Record<string, any> = {}>(
-  args: OHtmlPdfGeneratePdfInput<T> 
+  args: OHtmlPdfGeneratePdfInput<T>
 ) => Promise<OHtmlPdfGeneratePdfResponse>
 
 interface OHtmlPdfGeneratePdfInput<T extends Record<string, any> = {}> {
@@ -288,7 +298,7 @@ const data = {
 }
 
 const template = {
-  html: `<style>/* ... */</style> \ 
+  html: `<style>/* ... */</style> \
     <body><div>Hi, {{name}}<br><img alt="{{project}}" src="{{{logo}}}" /></div></body`,
 };
 
@@ -300,10 +310,10 @@ const options: OHtmlPdfGeneratePdfOptionsOnlyFile = {
 }
 
 const response: OHtmlPdfGeneratePdfObjectOnlyFile = await oHtmlPdf.generatePdf();
-// -> { 
-//   status: true, 
-//   filename: 'file.pdf', 
-//   filepath: '/absolute/path/file.pdf', 
+// -> {
+//   status: true,
+//   filename: 'file.pdf',
+//   filepath: '/absolute/path/file.pdf',
 // }
 
 
@@ -315,9 +325,9 @@ const options: OHtmlPdfGeneratePdfOptionsOnlyBuffer = {
 }
 
 const response: OHtmlPdfGeneratePdfObjectOnlyBuffer = await oHtmlPdf.generatePdf();
-// -> { 
-//   status: true, 
-//   buffer: Buffer, 
+// -> {
+//   status: true,
+//   buffer: Buffer,
 // }
 
 
@@ -329,16 +339,18 @@ const options: OHtmlPdfGeneratePdfOptionsBufferFile = {
 }
 
 const response: OHtmlPdfGeneratePdfObjectBufferFile = await oHtmlPdf.generatePdf();
-// -> { 
-//   status: true, 
+// -> {
+//   status: true,
 //   filename: 'file.pdf',
-//   filepath: '/absolute/path/file.pdf', 
-//   buffer: Buffer, 
+//   filepath: '/absolute/path/file.pdf',
+//   buffer: Buffer,
 // }
 ```
+
 <hr>
 
 ### static await generatePdfOnce()
+
 ```ts
 static await generatePdfOnce<T extends Record<string, any>>(
   args: OHtmlPdfGeneratePdfOnceInput<T>,
@@ -355,11 +367,11 @@ interface OHtmlPdfGeneratePdfOnceInput<T extends Record<string, any>> {
 
 ```js
 const response = await OHtmlPdf.generatePdfOnce( { ... } );
-// -> { 
-//   status: true, 
-//   filename: 'output.pdf', 
-//   filepath: '/absolute/path/output.pdf', 
-//   buffer: Buffer, 
+// -> {
+//   status: true,
+//   filename: 'output.pdf',
+//   filepath: '/absolute/path/output.pdf',
+//   buffer: Buffer,
 // }
 ```
 
@@ -370,16 +382,17 @@ const response = await OHtmlPdf.generatePdfOnce( { ... } );
 <hr>
 
 #### await castData
+
 ```ts
 await castData<T extends Record<string | number, any>>(data: T): Promise<T>
 ```
 
 ```js
 const rawData = {
-  project: "Test",
-  logo: "file://assets/oropensando.jpg",
-  logosmall: "https://oropensando.com/extrafiles/oro-html-pdf-test/oropensando32.png"
-}
+  project: 'Test',
+  logo: 'file://assets/oropensando.jpg',
+  logosmall: 'https://oropensando.com/extrafiles/oro-html-pdf-test/oropensando32.png',
+};
 
 const data = await castData(rawData);
 // -> {
@@ -392,6 +405,7 @@ const data = await castData(rawData);
 <hr>
 
 #### processTemplate
+
 ```ts
 processTemplate<T extends Record<string, any>>(
   html: string,
