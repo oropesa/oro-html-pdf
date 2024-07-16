@@ -1,3 +1,23 @@
+## 2.1.1 / 2024-07-16
+- Updated libs:
+  - `axios` from `v1.6.8` to `v1.7.2`.
+  - `oro-functions` from `v2.3.0` to `v2.3.1`.
+  - `puppeteer` from `v22.9.0` to `v22.13.0`.
+- Updated _dev_ libs:
+  - `@babel/core` from `v7.24.5` to `v7.24.9`.
+  - `@babel/preset-env` from `v7.24.5` to `v7.24.8`.
+  - `@babel/preset-typescript` from `v7.24.1` to `v7.24.7`.
+  - `@eslint/js` from `v9.3.0` to `v9.7.0`.
+  - `eslint-plugin-jest` from `v28.5.0` to `v28.6.0`.
+  - `eslint-plugin-unicorn` from `v53.0.0` to `v54.0.0`.
+  - `globals` from `v15.2.0` to `v15.8.0`.
+  - `nodemon` from `v3.1.0` to `v3.1.4`.
+  - `oro-timer` from `v2.1.0` to `v2.1.1`.
+  - `prettier` from `v3.2.5` to `v3.3.3`.
+  - `tsup` from `v8.0.2` to `v8.1.0`.
+  - `typescript` from `v5.4.5` to `v5.5.3`.
+  - `typescript-eslint` from `v7.9.0` to `v7.16.1`.
+
 ## 2.1.0 / 2024-06-02
 - Improved _github cicd_ replacing `actions/--@v3` by `actions/--@v4`, and replacing `npm install` to `npm ci`.
 - Moved _tests_ inside `src` and simplified `*.test.js` to have only the _special-js_ cases.
