@@ -3,6 +3,8 @@ const { OHtmlPdf } = require('../oro-html-pdf');
 const { Ofn } = require('oro-functions');
 const { PDFExtract } = require('pdf.js-extract');
 
+const { DIN_A4_DEFAULT_WIDTH, DIN_A4_DEFAULT_HEIGHT } = require('./_consts.mocks');
+
 //
 
 describe('generatePdf', () => {
@@ -39,8 +41,8 @@ describe('generatePdf', () => {
       rotation: 0,
       offsetX: 0,
       offsetY: 0,
-      width: 595.91998,
-      height: 842.88,
+      width: DIN_A4_DEFAULT_WIDTH,
+      height: DIN_A4_DEFAULT_HEIGHT,
     });
     expect(pdfStructure.pages[0].content).toEqual([]);
   });

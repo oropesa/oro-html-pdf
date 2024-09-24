@@ -4,7 +4,7 @@ import { PDFExtract } from 'pdf.js-extract';
 
 import type { OHtmlPdfGeneratePdfInputNone, OHtmlPdfGeneratePdfInputOnlyBuffer } from '../oro-html-pdf';
 import { OHtmlPdf } from '../oro-html-pdf';
-import { DIRNAME } from './_consts.mocks';
+import { DIN_A4_DEFAULT_HEIGHT, DIN_A4_DEFAULT_WIDTH, DIN_A5_DEFAULT_HEIGHT, DIRNAME } from './_consts.mocks';
 
 //
 
@@ -48,8 +48,8 @@ describe('generatePdf', () => {
       rotation: 0,
       offsetX: 0,
       offsetY: 0,
-      width: 595.919_98,
-      height: 842.88,
+      width: DIN_A4_DEFAULT_WIDTH,
+      height: DIN_A4_DEFAULT_HEIGHT,
     });
     expect(pdfStructure.pages[0].content).toEqual([]);
   });
@@ -101,8 +101,8 @@ describe('generatePdf', () => {
       rotation: 0,
       offsetX: 0,
       offsetY: 0,
-      width: 595.919_98,
-      height: 842.88,
+      width: DIN_A4_DEFAULT_WIDTH,
+      height: DIN_A4_DEFAULT_HEIGHT,
     });
     expect(content).toBe('chachotio loco');
   });
@@ -138,8 +138,8 @@ describe('generatePdf', () => {
       rotation: 0,
       offsetX: 0,
       offsetY: 0,
-      width: 595.919_98,
-      height: 420,
+      width: DIN_A4_DEFAULT_WIDTH,
+      height: DIN_A5_DEFAULT_HEIGHT,
     });
     expect(content).toBe('chachotio');
   });

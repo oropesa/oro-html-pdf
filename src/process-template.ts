@@ -34,7 +34,9 @@ export function processTemplate<T extends Record<string, any>>(
   }
 
   const { registerHelpers, ...opts } = Ofn.cloneObject(Ofn.isObject(options) ? options : {});
-  opts.strict === undefined && (opts.strict = true);
+  if (opts.strict === undefined) {
+    opts.strict = true;
+  }
 
   try {
     const template = Handlebars.compile(html, opts);
