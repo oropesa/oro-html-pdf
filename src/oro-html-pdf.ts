@@ -329,7 +329,9 @@ export class OHtmlPdf {
     //
 
     const launch = args.launch ?? { args: ['--no-sandbox', '--disable-setuid-sandbox'] };
-    launch.headless === undefined && (launch.headless = true);
+    if (launch.headless === undefined) {
+      launch.headless = true;
+    }
 
     try {
       this.#browser = await puppeteer.launch(launch);
@@ -406,7 +408,9 @@ export class OHtmlPdf {
     pdfOptions.displayHeaderFooter = !!pdfOptions.headerTemplate || !!pdfOptions.footerTemplate;
 
     pdfOptions.path = pdfOptions.path ?? cloneOptions.output;
-    pdfOptions.path && (pdfOptions.path = path.resolve(pdfOptions.path));
+    if (pdfOptions.path) {
+      pdfOptions.path = path.resolve(pdfOptions.path);
+    }
 
     //
 
