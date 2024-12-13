@@ -34,7 +34,7 @@ export async function castData<T extends Record<string | number, any>>(data: T):
       if (responseImage.status) {
         // @ts-expect-error: replace file-image to base64
         cloneData[key] = `data:image/${Ofn.getFilenameExtByName(value)};base64,${Buffer.from(
-          responseImage.buffer,
+          responseImage.buffer as unknown as WithImplicitCoercion<ArrayBuffer>,
         ).toString('base64')}`;
       }
     } else {

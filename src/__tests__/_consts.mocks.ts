@@ -1,6 +1,7 @@
 import fsExtra from 'fs-extra';
 import { Ofn } from 'oro-functions';
 
+// eslint-disable-next-line unicorn/prefer-module
 export const DIRNAME = __dirname;
 
 interface Template {
@@ -26,6 +27,6 @@ if (Ofn.objIsNotEmpty(DATA)) {
 export const LOGO_BASE64 = fsExtra.readFileSync(`${DIRNAME}/assets/oropensando.jpg.txt`, 'utf8');
 export const LOGO_SMALL_BASE64 = fsExtra.readFileSync(`${DIRNAME}/assets/oropensando32.png.txt`, 'utf8');
 
-export const DIN_A4_DEFAULT_WIDTH = 595.91998;
-export const DIN_A4_DEFAULT_HEIGHT = 841.91998;
+export const DIN_A4_DEFAULT_WIDTH = 595.919_98;
+export const DIN_A4_DEFAULT_HEIGHT = 841.919_98;
 export const DIN_A5_DEFAULT_HEIGHT = 420;
