@@ -3,7 +3,7 @@ import Ofn, { isString } from 'oro-functions';
 import type { SResponseKOObjectSimple, SResponseOKBasic, SResponseOKObject } from 'oro-functions';
 import type { OTimer } from 'oro-timer';
 import puppeteer from 'puppeteer';
-import type { Browser, GoToOptions, PDFOptions, PuppeteerLaunchOptions } from 'puppeteer';
+import type { Browser, GoToOptions, LaunchOptions, PDFOptions, Page } from 'puppeteer';
 
 import { castData } from './cast-data';
 import { processTemplate } from './process-template';
@@ -14,12 +14,12 @@ import type { HandlebarsOptions, ProcessTemplateError } from './process-template
 export interface OHtmlPdfPoolOpenOptions {
   oTimer?: OTimer;
   oTimerOpen?: string;
-  launch?: PuppeteerLaunchOptions;
+  launch?: LaunchOptions;
 }
 
 export interface OHtmlPdfPoolOpenError {
   type: 'PoolOpen';
-  launch: PuppeteerLaunchOptions;
+  launch: LaunchOptions;
   puppeteerError: any;
 }
 
@@ -415,13 +415,34 @@ export class OHtmlPdf {
     //
 
     let response;
+    let page: Page;
 
     try {
-      const page = await this.#browser.newPage();
+      page = await this.#browser.newPage();
+    } catch (error) {
+      return Ofn.setResponseKO(`Puppetter Page.New failed.`, {
+        type: 'PageFailed',
+        page: goToOptions,
+        pdf: pdfOptions,
+        puppeteerError: error,
+      });
+    }
+
+    try {
       await page.goto(cloneTemplate.url ?? `data:text/html,${cloneTemplate.html || ''}`, goToOptions);
+    } catch (error) {
+      return Ofn.setResponseKO(`Puppetter Page.GoTo failed.`, {
+        type: 'PageFailed',
+        page: goToOptions,
+        pdf: pdfOptions,
+        puppeteerError: error,
+      });
+    }
+
+    try {
       response = await page.pdf(pdfOptions);
     } catch (error) {
-      return Ofn.setResponseKO(`Puppetter Page failed.`, {
+      return Ofn.setResponseKO(`Puppetter Page.PDF failed.`, {
         type: 'PageFailed',
         page: goToOptions,
         pdf: pdfOptions,
