@@ -1,7 +1,6 @@
 import fsExtra from 'fs-extra';
 import { Ofn } from 'oro-functions';
 
-// eslint-disable-next-line unicorn/prefer-module
 export const DIRNAME = __dirname;
 
 interface Template {
