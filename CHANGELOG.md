@@ -1,4 +1,5 @@
 ## 2.1.5 / 2025-10-22
+
 - Add `update-deps.js` script.
 - Update _github-workflows_ with `actions/checkout@v5` and `node-version: 22`.
 - Update libs:
